@@ -75,11 +75,13 @@ const start = async () => {
   // I need to treat each entity individually, so cannot just loop through
   await loadSchema();
   await loadRoles();
-  await loadUsers(readFile("users")); //Comes after roles
   await loadToDestination("folders", readFile("folders"));
+  await loadToDestination("dashboards", readFile("dashboards"));
+  await loadToDestination("panels", readFile("panels")); //Comes after dashboards
+  await loadFiles(); //comes after folders
+  await loadUsers(readFile("users")); //Comes after roles, files
   await loadFlows(readFile("flows"));
   await loadOperations(); // comes after flows
-  await loadFiles();
   await loadData();
   await loadPublicPermissions();
 };
