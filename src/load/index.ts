@@ -12,36 +12,7 @@ import loadFiles from "./loadFiles";
 import loadFlows from "./loadFlows";
 import { loadOperations } from "./loadOperations";
 
-// import loadRoles from './loadRoles';
-// import loadUsers from './loadUsers';
-// import fields from '../source/fields/fields.json';
-// import loadFiles from './loadFiles';
-// import loadFolders from './loadFolders';
-// import loadData from './loadData';
-
-// const getJsonFiles = () => {
-// 	console.log(dir);
-// 	let files = fs.readdirSync(dir);
-// 	files = files.filter((file) => file.endsWith('.json') && file !== 'collections.json');
-// 	return files;
-// };
-
-let dir = path.join(__dirname, "..", "source");
-
-// let endpoints = [
-//   "schema/snapshot",
-//   "folders",
-//   "operations",
-//   "fields",
-//   "users",
-//   "roles",
-//   "files",
-//   "permissions",
-//   "collections",
-//   "flows",
-//   "dashboards",
-//   "panels",
-// ];
+const dir = path.join(__dirname, "..", "source");
 
 export const readFile = (file: string): any[] => {
   const f = fs.readFileSync(`${dir}/${file}.json`, "utf8");
@@ -62,13 +33,27 @@ export const loadToDestination = async (entity: string, rawData: any[]) => {
   }
 };
 
+export const loadSettings = async (settingsObj: any) => {
+  const { data } = await session.patch("settings", settingsObj);
+};
+
 const loadRoles = async () => {
   let roles = await readFile("roles");
   roles = roles.map((role) => {
     delete role.users;
     return role;
   });
-  loadToDestination("roles", roles);
+  await loadToDestination("roles", roles);
+};
+
+const loadDashboards = async () => {
+  let dashboards = readFile("dashboards");
+  let filteredDashboards = dashboards.map((dash) => {
+    let newDash = { ...dash };
+    delete newDash.panels;
+    return newDash;
+  });
+  await loadToDestination("dashboards", filteredDashboards);
 };
 
 const start = async () => {
@@ -76,13 +61,16 @@ const start = async () => {
   await loadSchema();
   await loadRoles();
   await loadToDestination("folders", readFile("folders"));
-  await loadToDestination("dashboards", readFile("dashboards"));
+  // await loadToDestination("dashboards", readFile("dashboards"));
+  await loadDashboards();
   await loadToDestination("panels", readFile("panels")); //Comes after dashboards
   await loadFiles(); //comes after folders
   await loadUsers(readFile("users")); //Comes after roles, files
   await loadFlows(readFile("flows"));
   await loadOperations(); // comes after flows
   await loadData();
+  await loadToDestination("presets", readFile("presets"));
+  await loadSettings(readFile("settings"));
   await loadPublicPermissions();
 };
 

@@ -32,6 +32,7 @@ export default async () => {
         },
       });
       await session.patch(`files/${asset.id}`, {
+        // Add to form
         title: asset.title,
         description: asset.description,
         folder: asset.folder,

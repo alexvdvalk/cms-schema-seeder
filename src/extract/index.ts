@@ -22,6 +22,8 @@ let endpoints = [
   "flows",
   "dashboards",
   "panels",
+  "presets",
+  "settings",
 ];
 
 const start = async () => {

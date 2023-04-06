@@ -12,7 +12,10 @@ export default async () => {
   await loadSingletons();
 };
 
+// Handle mandatory fields properly
 // Upload record id.
+// SQL reset indexes once everything is loaded. - This is required for
+// Project Settings - ?
 const loadSkeletonRecords = async () => {
   for (const collection of userCollections) {
     const name = collection.collection;
