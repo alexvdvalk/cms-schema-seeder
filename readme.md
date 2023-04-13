@@ -25,7 +25,7 @@ Please ensure both your API keys have Admin access.
 
 1. Rename .env.example to .env and update your values.
 
-2. Run "npm road extract" to extract everything from the source system.
+2. Run "npm run extract" to extract everything from the source system.
 
 3. All the data will be stored in the 'source' folder.
 
