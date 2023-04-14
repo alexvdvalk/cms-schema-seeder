@@ -9,6 +9,11 @@ Currently using Bryant's CMS demo schema (agency os) as a template.
 
 There are some outstanding issues with the schema endpoints.
 
+**Current Limitations:**
+1. This is untested against large volumes of data.
+2. It won't work against collections where "Allow NULL values" is disabled.
+3. if your source Directus system uses automatics incremental IDs, you will need to reset the auto incrementer in your DB.
+4. When loading data, your destination Directus system should be blank to start with.
   
 
 **Instructions:**
