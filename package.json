@@ -15,7 +15,7 @@
 		"dotenv": "^16.0.3",
 		"formdata-node": "^5.0.0",
 		"generate-password": "^1.7.0",
-		"rimraf": "^4.4.1"
+		"rimraf": "^5.0.5"
 	},
 	"devDependencies": {
 		"@types/node": "^18.15.3",

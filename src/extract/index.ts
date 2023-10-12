@@ -1,4 +1,3 @@
-import { AxiosInstance } from "axios";
 // import login from './auth/login';
 
 import dotenv from "dotenv";
